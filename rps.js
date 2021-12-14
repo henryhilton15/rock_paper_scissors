@@ -1,6 +1,18 @@
 const ROCK = 'Rock';
 const PAPER = 'Paper';
 const SCISSORS = 'Scissors';
+var player_score = 0;
+var computer_score = 0;
+
+const results_container = document.querySelector('#results_container');
+const player_status = document.createElement('p');
+const computer_status = document.createElement('p');
+const round_summary = document.createElement('p');
+const game_over = document.createElement('h1');
+results_container.appendChild(player_status);
+results_container.appendChild(computer_status);
+results_container.appendChild(round_summary);
+results_container.appendChild(game_over);
 
 function computerPlay() {
     let hand;
@@ -63,18 +75,28 @@ function playRound(player_hand, computer_hand){
 }
 
 function win(winner, loser){
+    player_score += 1;
     return `You Win! ${winner} beats ${loser}.`
 }
 function lose(winner, loser){
+    computer_score += 1;
     return `You Lose! ${winner} beats ${loser}.`
 }
 function draw(winner, loser){
     return `You Draw. ${winner} ties ${loser}.`
 }
 
-function game(){
-    for (let i = 0; i < 5; i++) {
-        console.log(playRound(playerInput(), computerPlay()));
+function game(player_input){ 
+    round_summary.textContent = (playRound(player_input, computerPlay()));
+    displayResults();
+}
+
+function displayResults(){
+    if (player_score <= 5 && computer_score <= 5){
+        player_status.textContent = `Player: ${player_score}`;
+        computer_status.textContent = `Computer: ${computer_score}`;
     }
-    alert("games complete!");
+    if (player_score >= 5 || computer_score >= 5){
+        game_over.textContent = 'GAME OVER!'
+    }
 }
